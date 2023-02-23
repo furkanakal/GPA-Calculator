@@ -18,56 +18,58 @@ struct ContentView: View {
 	let grades: [String] = ["A", "B+", "B", "C+", "C", "D+", "D", "F"]
 		
 	var body: some View {
-		VStack {
-			List(classes, id: \.id) { classItem in
-				Text(classItem.name)
-					.font(.title3)
+		NavigationView {
+			VStack {
+				List(classes, id: \.id) { classItem in
+					Text(classItem.name)
+						.font(.title3)
+					HStack {
+						Text("Credit: \(classItem.credit)")
+						Spacer()
+						Text("Grade: \(classItem.grade)")
+					}
+				}
 				HStack {
-					Text("Credit: \(classItem.credit)")
-					Spacer()
-					Text("Grade: \(classItem.grade)")
-				}
-			}
-			HStack {
-				TextField("Enter class name", text: $className)
-				Picker("Credit", selection: $selectedCredit) {
-					ForEach(credits, id: \.self) { credit in
-						Text("\(credit)").tag(credit)
+					TextField("Enter class name", text: $className)
+					Picker("Credit", selection: $selectedCredit) {
+						ForEach(credits, id: \.self) { credit in
+							Text("\(credit)").tag(credit)
+						}
+					}
+					.pickerStyle(MenuPickerStyle())
+					Picker("Grade", selection: $selectedGrade) {
+						ForEach(grades, id: \.self) { grade in
+							Text("\(grade)").tag(grade)
+						}
+					}
+					.pickerStyle(MenuPickerStyle())
+					Button(action: {
+						self.classes.append(Class(id: UUID(), name: self.className, credit: self.selectedCredit, grade: self.selectedGrade))
+						self.className = ""
+						self.selectedCredit = 0
+						self.selectedGrade = "A"
+					}) {
+						Text("Add")
 					}
 				}
-				.pickerStyle(MenuPickerStyle())
-				Picker("Grade", selection: $selectedGrade) {
-					ForEach(grades, id: \.self) { grade in
-						Text("\(grade)").tag(grade)
-					}
-				}
-				.pickerStyle(MenuPickerStyle())
+				.padding()
 				Button(action: {
-					self.classes.append(Class(id: UUID(), name: self.className, credit: self.selectedCredit, grade: self.selectedGrade))
-					self.className = ""
-					self.selectedCredit = 0
-					self.selectedGrade = "A"
+					self.gpa = calculateGPA(classes: self.classes)
 				}) {
-					Text("Add")
+					Text("Calculate GPA")
+						.font(.title3)
+						.foregroundColor(.white)
 				}
+				.padding()
+				.background(Color.blue)
+				.cornerRadius(10)
+				.padding()
+				Text("GPA: \(String(format: "%.2f", self.gpa))")
+					.font(.title)
+					.fontWeight(.bold)
 			}
 			.padding()
-			Button(action: {
-				self.gpa = calculateGPA(classes: self.classes)
-			}) {
-				Text("Calculate GPA")
-					.font(.title3)
-					.foregroundColor(.white)
-			}
-			.padding()
-			.background(Color.blue)
-			.cornerRadius(10)
-			.padding()
-			Text("GPA: \(String(format: "%.2f", self.gpa))")
-				.font(.title)
-				.fontWeight(.bold)
 		}
-		.padding()
 	}
 }
 		
