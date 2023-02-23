@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
 	@State var classes: [Class] = []
 	@State var selectedCredit: Int = 0
-	@State var selectedGrade: String = "A"
+	@State var selectedGrade: String = "AA"
 	@State var gpa: Double = 0.0
 	@State var className: String = ""
 		
@@ -51,7 +51,7 @@ struct ContentView: View {
 						self.classes.append(Class(id: UUID(), name: self.className, credit: self.selectedCredit, grade: self.selectedGrade))
 						self.className = ""
 						self.selectedCredit = 0
-						self.selectedGrade = "A"
+						self.selectedGrade = ""
 					}) {
 						Text("Add")
 					}
