@@ -14,8 +14,8 @@ struct ContentView: View {
 	@State var gpa: Double = 0.0
 	@State var className: String = ""
 		
-	let credits: [Int] = [1, 2, 3, 4, 5]
-	let grades: [String] = ["A", "B+", "B", "C+", "C", "D+", "D", "F"]
+	let credits: [Int] = [2, 3, 4, 5]
+	let grades: [String] = ["AA", "BA", "BB", "CB", "CC", "DC", "DD", "FD", "FF"]
 		
 	var body: some View {
 		NavigationView {
@@ -44,6 +44,10 @@ struct ContentView: View {
 					}
 					.pickerStyle(MenuPickerStyle())
 					Button(action: {
+						guard !className.isEmpty else {
+							return
+						}
+						
 						self.classes.append(Class(id: UUID(), name: self.className, credit: self.selectedCredit, grade: self.selectedGrade))
 						self.className = ""
 						self.selectedCredit = 0
@@ -68,6 +72,7 @@ struct ContentView: View {
 					.font(.title)
 					.fontWeight(.bold)
 			}
+			.navigationTitle("GPA Calculator")
 			.padding()
 		}
 	}
@@ -80,20 +85,24 @@ func calculateGPA(classes: [Class]) -> Double {
 	for classItem in classes {
 		totalCredits += Double(classItem.credit)
 		switch classItem.grade {
-		case "A":
+		case "AA":
 			totalGradePoints += 4.0 * Double(classItem.credit)
-		case "B+":
+		case "BA":
 			totalGradePoints += 3.5 * Double(classItem.credit)
-		case "B":
+		case "BB":
 			totalGradePoints += 3.0 * Double(classItem.credit)
-		case "C+":
+		case "CB":
 			totalGradePoints += 2.5 * Double(classItem.credit)
-		case "C":
+		case "CC":
 			totalGradePoints += 2.0 * Double(classItem.credit)
-		case "D+":
+		case "DC":
 			totalGradePoints += 1.5 * Double(classItem.credit)
-		case "D":
+		case "DD":
 			totalGradePoints += 1.0 * Double(classItem.credit)
+		case "FD":
+			totalGradePoints += 0.5 * Double(classItem.credit)
+		case "FF":
+			totalGradePoints += 0.0 * Double(classItem.credit)
 		default:
 			totalGradePoints += 0.0
 		}
