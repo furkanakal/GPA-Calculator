@@ -13,21 +13,37 @@ struct ContentView: View {
 	@State var selectedGrade: String = "AA"
 	@State var gpa: Double = 0.0
 	@State var className: String = ""
-		
+	
 	let credits: [Int] = [2, 3, 4, 5]
 	let grades: [String] = ["AA", "BA", "BB", "CB", "CC", "DC", "DD", "FD", "FF"]
-		
+	
 	var body: some View {
 		NavigationView {
 			VStack {
-				List(classes, id: \.id) { classItem in
-					Text(classItem.name)
-						.font(.title3)
-					HStack {
-						Text("Credit: \(classItem.credit)")
-						Spacer()
-						Text("Grade: \(classItem.grade)")
+				List {
+					ForEach(classes) { classItem in
+						HStack {
+							Text(classItem.name)
+								.font(.title3)
+							Spacer()
+							Text("Credit: \(classItem.credit)")
+							Spacer()
+							Text("Grade: \(classItem.grade)")
+						}
+						.swipeActions(edge: .trailing, allowsFullSwipe: false) {
+							Button(action: {
+								self.classes.removeAll(where: { $0.id == classItem.id })
+								self.gpa = calculateGPA(classes: self.classes)
+							}) {
+								Label("Remove", systemImage: "trash")
+							}
+							.tint(.red)
+						}
 					}
+					.onDelete(perform: { indexSet in
+						self.classes.remove(atOffsets: indexSet)
+						self.gpa = calculateGPA(classes: self.classes)
+					})
 				}
 				HStack {
 					TextField("Enter class name", text: $className)
@@ -50,8 +66,8 @@ struct ContentView: View {
 						
 						self.classes.append(Class(id: UUID(), name: self.className, credit: self.selectedCredit, grade: self.selectedGrade))
 						self.className = ""
-						self.selectedCredit = 0
-						self.selectedGrade = ""
+						self.selectedCredit = 2
+						self.selectedGrade = "AA"
 					}) {
 						Text("Add")
 					}
