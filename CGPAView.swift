@@ -98,8 +98,8 @@ func calculateCGPA(semesters: [Class3]) -> Double {
 	var totalGradePoints: Double = 0.0
 	
 	for classItem in semesters {
-		totalCredits += Double(classItem.creditValue)
-		totalGradePoints += Double(classItem.creditValue) * classItem.gpaValue
+		totalCredits += Double(classItem.semesterCredit)
+		totalGradePoints += Double(classItem.semesterCredit) * classItem.semesterGPA
 	}
 	
 	return totalGradePoints / totalCredits
@@ -110,14 +110,6 @@ struct Class3: Identifiable {
 	var semesterNo: Int
 	var semesterCredit: Int
 	var semesterGPA: Double
-	
-	var creditValue: Int {
-		return semesterCredit
-	}
-	
-	var gpaValue: Double {
-		return semesterGPA
-	}
 }
 
 struct CGPAView_Previews: PreviewProvider {
