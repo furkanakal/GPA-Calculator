@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CGPAView: View {
 	@State var semesters: [Class3] = []
-	@State var enteredSemesterCredit: Double = 0.0
+	@State var enteredSemesterCredit: Int = 0
 	@State var enteredSemesterGPA: Double = 0.0
 	@State var cGPA: Double = 0.0
 	@State var selectedSemesterNo: Int = 0
@@ -57,14 +57,17 @@ struct CGPAView: View {
 					))
 					TextField("Semester Credit", text: Binding(
 							get: { String(format: "%.2f", enteredSemesterCredit) },
-							set: { enteredSemesterCredit = Double($0) ?? 0.0 }
+							set: { enteredSemesterCredit = Int($0) ?? 0 }
 					))
 					Button(action: {
-						guard !semesterGPA.description.isEmpty else {
+						guard !enteredSemesterGPA.description.isEmpty else {
 							return
 						}
 						
-						self.semesters.append(Class3(id: UUID(), semesterNo:))
+						self.semesters.append(Class3(id: UUID(), semesterNo: self.selectedSemesterNo, semesterCredit: self.enteredSemesterCredit, semesterGPA: self.enteredSemesterGPA))
+						self.selectedSemesterNo = 0
+						self.enteredSemesterCredit = 0
+						self.enteredSemesterGPA = 0.0
 						
 					}) {
 						Text("Add")
