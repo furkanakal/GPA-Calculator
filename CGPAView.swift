@@ -52,12 +52,12 @@ struct CGPAView: View {
 					}
 					.pickerStyle(MenuPickerStyle())
 					TextField("Semester GPA", text: Binding(
-							get: { String(format: "%.2f", enteredSemesterGPA) },
-							set: { enteredSemesterGPA = Double($0) ?? 0.0 }
+						get: { String(format: "%.2f", enteredSemesterGPA) },
+						set: { enteredSemesterGPA = Double($0) ?? 0.0 }
 					))
 					TextField("Semester Credit", text: Binding(
-							get: { String(format: "%.2f", enteredSemesterCredit) },
-							set: { enteredSemesterCredit = Int($0) ?? 0 }
+						get: { String(format: "%.2f", enteredSemesterCredit) },
+						set: { enteredSemesterCredit = Int($0) ?? 0 }
 					))
 					Button(action: {
 						guard !enteredSemesterGPA.description.isEmpty else {
@@ -86,7 +86,13 @@ struct CGPAView: View {
 				.background(Color.blue)
 				.cornerRadius(10)
 				.padding()
+					
+				Text("cGPA: \(String(format: "%.2f", self.cGPA))")
+					.font(.title)
+					.fontWeight(.bold)
 			}
+			.navigationTitle("cGPA Calculator")
+			.padding()
 		}
 	}
 }
