@@ -67,7 +67,7 @@ struct ContentView2: View {
 						self.classes.append(Class2(id: UUID(), name: self.className, credit: self.selectedCredit, grade: self.selectedGrade))
 						self.className = ""
 						self.selectedCredit = 2
-						self.selectedGrade = "AA"
+						self.selectedGrade = "A"
 					}) {
 						Text("Add")
 					}
