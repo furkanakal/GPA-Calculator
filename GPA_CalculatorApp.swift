@@ -9,9 +9,9 @@ import SwiftUI
 
 @main
 struct GPA_CalculatorApp: App {
-    var body: some Scene {
-        WindowGroup {
-            MainView()
-        }
+  var body: some Scene {
+    WindowGroup {
+      MainView()
     }
+  }
 }
