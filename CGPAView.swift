@@ -55,10 +55,12 @@ struct CGPAView: View {
 						get: { String(format: "%.2f", enteredSemesterGPA) },
 						set: { enteredSemesterGPA = Double($0) ?? 0.0 }
 					))
+					.keyboardType(.decimalPad)
 					TextField("Semester Credit", text: Binding(
 						get: { String(format: "%.2f", enteredSemesterCredit) },
 						set: { enteredSemesterCredit = Int($0) ?? 0 }
 					))
+					.keyboardType(.numberPad)
 					Button(action: {
 						guard !enteredSemesterGPA.description.isEmpty else {
 							return
@@ -102,8 +104,8 @@ func calculateCGPA(semesters: [Class3]) -> Double {
 	var totalGradePoints: Double = 0.0
 	
 	for classItem in semesters {
-		totalCredits += Double(classItem.semesterCredit)
-		totalGradePoints += Double(classItem.semesterCredit) * classItem.semesterGPA
+		totalCredits += Double(classItem.creditValue)
+		totalGradePoints += Double(classItem.creditValue) * classItem.gpaValue
 	}
 	
 	return totalGradePoints / totalCredits
@@ -112,8 +114,16 @@ func calculateCGPA(semesters: [Class3]) -> Double {
 struct Class3: Identifiable {
 	var id: UUID
 	var semesterNo: Int
-	var semesterCredit: Int
-	var semesterGPA: Double
+	var semesterCredit: String
+	var semesterGPA: String
+	
+	var creditValue: Int {
+		return Int(semesterCredit) ?? 0
+	}
+	
+	var gpaValue: Double {
+		return Double(semesterGPA) ?? 0.0
+	}
 }
 
 struct CGPAView_Previews: PreviewProvider {
