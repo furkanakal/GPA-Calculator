@@ -9,10 +9,10 @@ import SwiftUI
 
 struct CGPAView: View {
 	@State var semesters: [Class3] = []
-	@State var semesterCredit: Double = 0.0
-	@State var semesterGPA: Double = 0.0
+	@State var enteredSemesterCredit: Double = 0.0
+	@State var enteredSemesterGPA: Double = 0.0
 	@State var cGPA: Double = 0.0
-	@State var semesterNo: Int = 0
+	@State var selectedSemesterNo: Int = 0
 	
 	let semesterNos: [Int] = [1, 2, 3, 4, 5, 6, 7, 8]
 	
@@ -38,6 +38,36 @@ struct CGPAView: View {
 							}
 							.tint(.red)
 						}
+					}
+					.onDelete(perform: { indexSet in
+						self.semesters.remove(atOffsets: indexSet)
+						self.cGPA = calculateCGPA(semesters: self.semesters)
+					})
+				}
+				HStack {
+					Picker("Semester No", selection: $selectedSemesterNo) {
+						ForEach(semesterNos, id: \.self) { semesterNo in
+							Text("\(semesterNo)").tag(semesterNo)
+						}
+					}
+					.pickerStyle(MenuPickerStyle())
+					TextField("Semester GPA", text: Binding(
+							get: { String(format: "%.2f", enteredSemesterGPA) },
+							set: { enteredSemesterGPA = Double($0) ?? 0.0 }
+					))
+					TextField("Semester Credit", text: Binding(
+							get: { String(format: "%.2f", enteredSemesterCredit) },
+							set: { enteredSemesterCredit = Double($0) ?? 0.0 }
+					))
+					Button(action: {
+						guard !semesterGPA.description.isEmpty else {
+							return
+						}
+						
+						self.semesters.append(Class3(id: UUID(), semesterNo:))
+						
+					}) {
+						Text("Add")
 					}
 				}
 			}
