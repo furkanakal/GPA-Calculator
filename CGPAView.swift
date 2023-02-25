@@ -44,32 +44,45 @@ struct CGPAView: View {
 						self.cGPA = calculateCGPA(semesters: self.semesters)
 					})
 				}
-				HStack {
-					Picker("Semester No", selection: $selectedSemesterNo) {
-						ForEach(semesterNos, id: \.self) { semesterNo in
-							Text("\(semesterNo)").tag(semesterNo)
+				
+				Section(header:
+					HStack {
+						Text("PLEASE ENTER THE CREDIT AMOUNT AND THE GPA.")
+							.lineLimit(1)
+							.font(.caption)
+							.foregroundColor(.black)
+							.padding(.all)
+							.frame(maxWidth: .infinity, alignment: .center)
+							.background(Color(.systemGray6))
+					}
+				) {
+					HStack {
+						Picker("Semester No", selection: $selectedSemesterNo) {
+							ForEach(semesterNos, id: \.self) { semesterNo in
+								Text("\(semesterNo)").tag(semesterNo)
+							}
+						}
+						.pickerStyle(MenuPickerStyle())
+						TextField("Semester Credit", value: $enteredSemesterCredit, formatter: NumberFormatter())
+							.keyboardType(.numberPad)
+						TextField("Semester GPA", value: $enteredSemesterGPA, formatter: NumberFormatter())
+							.keyboardType(.decimalPad)
+						Button(action: {
+							guard !enteredSemesterGPA.description.isEmpty else {
+								return
+							}
+							
+							self.semesters.append(Class3(id: UUID(), semesterNo: self.selectedSemesterNo, semesterCredit: self.enteredSemesterCredit, semesterGPA: self.enteredSemesterGPA))
+							self.selectedSemesterNo = 0
+							self.enteredSemesterCredit = 0
+							self.enteredSemesterGPA = 0.0
+							
+						}) {
+							Text("Add")
 						}
 					}
-					.pickerStyle(MenuPickerStyle())
-					TextField("Semester Credit", value: $enteredSemesterCredit, formatter: NumberFormatter())
-					.keyboardType(.numberPad)
-					TextField("Semester GPA", value: $enteredSemesterGPA, formatter: NumberFormatter())
-					.keyboardType(.decimalPad)
-					Button(action: {
-						guard !enteredSemesterGPA.description.isEmpty else {
-							return
-						}
-						
-						self.semesters.append(Class3(id: UUID(), semesterNo: self.selectedSemesterNo, semesterCredit: self.enteredSemesterCredit, semesterGPA: self.enteredSemesterGPA))
-						self.selectedSemesterNo = 0
-						self.enteredSemesterCredit = 0
-						self.enteredSemesterGPA = 0.0
-						
-					}) {
-						Text("Add")
-					}
+					.padding()
 				}
-				.padding()
 				
 				Button(action: {
 					self.cGPA = calculateCGPA(semesters: self.semesters)

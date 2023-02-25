@@ -15,4 +15,3 @@ struct GPA_CalculatorApp: App {
         }
     }
 }
-"
