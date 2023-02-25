@@ -20,6 +20,8 @@ struct MainView: View {
 					Label("Mode 2", systemImage: "list.dash")
 				}
 			
+			Spacer()
+			
 			CGPAView()
 				.tabItem {
 					Label("cGPA", systemImage: "list.dash")
