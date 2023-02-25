@@ -73,6 +73,19 @@ struct CGPAView: View {
 						Text("Add")
 					}
 				}
+				.padding()
+				
+				Button(action: {
+					self.cGPA = calculateCGPA(semesters: self.semesters)
+				}) {
+					Text("Calculate cGPA")
+						.font(.title3)
+						.foregroundColor(.white)
+				}
+				.padding()
+				.background(Color.blue)
+				.cornerRadius(10)
+				.padding()
 			}
 		}
 	}
