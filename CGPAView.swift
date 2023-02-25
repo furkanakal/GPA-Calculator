@@ -51,16 +51,10 @@ struct CGPAView: View {
 						}
 					}
 					.pickerStyle(MenuPickerStyle())
-					TextField("Semester GPA", text: Binding(
-						get: { String(format: "%.2f", enteredSemesterGPA) },
-						set: { enteredSemesterGPA = Double($0) ?? 0.0 }
-					))
-					.keyboardType(.decimalPad)
-					TextField("Semester Credit", text: Binding(
-						get: { String(format: "%.2f", enteredSemesterCredit) },
-						set: { enteredSemesterCredit = Int($0) ?? 0 }
-					))
+					TextField("Semester Credit", value: $enteredSemesterCredit, formatter: NumberFormatter())
 					.keyboardType(.numberPad)
+					TextField("Semester GPA", value: $enteredSemesterGPA, formatter: NumberFormatter())
+					.keyboardType(.decimalPad)
 					Button(action: {
 						guard !enteredSemesterGPA.description.isEmpty else {
 							return
@@ -114,15 +108,15 @@ func calculateCGPA(semesters: [Class3]) -> Double {
 struct Class3: Identifiable {
 	var id: UUID
 	var semesterNo: Int
-	var semesterCredit: String
-	var semesterGPA: String
+	var semesterCredit: Int
+	var semesterGPA: Double
 	
 	var creditValue: Int {
-		return Int(semesterCredit) ?? 0
+		return semesterCredit
 	}
 	
 	var gpaValue: Double {
-		return Double(semesterGPA) ?? 0.0
+		return semesterGPA
 	}
 }
 
