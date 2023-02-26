@@ -14,6 +14,9 @@ struct CGPAView: View {
 	@State var cGPA: Double = 0.0
 	@State var selectedSemesterNo: Int = 0
 	
+	@State private var enteredSemesterCreditText = ""
+	@State private var enteredSemesterGPAText = ""
+	
 	let semesterNos: [Int] = [1, 2, 3, 4, 5, 6, 7, 8]
 	
 	var body: some View {
@@ -63,10 +66,40 @@ struct CGPAView: View {
 							}
 						}
 						.pickerStyle(MenuPickerStyle())
-						TextField("Credit", value: $enteredSemesterCredit, formatter: NumberFormatter())
-							.keyboardType(.numberPad)
-						TextField("GPA", value: $enteredSemesterGPA, formatter: NumberFormatter())
-							.keyboardType(.decimalPad)
+						TextEditor(text: $enteredSemesterCreditText)
+							.frame(width: 80, height: 35)
+							.border(Color.gray.opacity(0.5), width: 1)
+							.padding(.leading, 5)
+							.foregroundColor(Color(.systemGray))
+							.opacity(enteredSemesterCredit == 0 ? 0.5 : 1.0)
+							.overlay(
+								Text("Credit")
+									.foregroundColor(Color(.systemGray3))
+									.opacity(enteredSemesterCredit == 0 ? 1.0 : 0.0)
+									.padding()
+							)
+							.onChange(of: enteredSemesterCreditText) { newValue in
+								// Update the binding to an Int whenever the text changes
+									enteredSemesterCredit = Int(newValue) ?? 0
+							}
+						
+						TextEditor(text: $enteredSemesterGPAText)
+							.frame(width: 80, height: 35)
+							.border(Color.gray.opacity(0.5), width: 1)
+							.padding(.leading, 5)
+							.foregroundColor(Color(.systemGray))
+							.opacity(enteredSemesterGPA == 0 ? 0.5 : 1.0)
+							.overlay(
+								Text("GPA")
+									.foregroundColor(Color(.systemGray3))
+									.opacity(enteredSemesterGPA == 0 ? 1.0 : 0.0)
+									.padding()
+							)
+							.onChange(of: enteredSemesterGPAText) { newValue in
+								// Update the binding to a Double whenever the text changes
+								enteredSemesterGPA = Double(newValue) ?? 0.0
+							}
+						
 						Button(action: {
 							guard !enteredSemesterGPA.description.isEmpty else {
 								return
@@ -76,6 +109,8 @@ struct CGPAView: View {
 							self.selectedSemesterNo = 0
 							self.enteredSemesterCredit = 0
 							self.enteredSemesterGPA = 0.0
+							self.enteredSemesterCreditText = ""
+							self.enteredSemesterGPAText = ""
 							
 						}) {
 							Text("Add")
