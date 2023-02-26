@@ -142,5 +142,6 @@ struct Class2: Identifiable {
 struct ContentView_Previews2: PreviewProvider {
 	static var previews: some View {
 		ContentView2()
+			.preferredColorScheme(.dark)
 	}
 }

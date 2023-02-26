@@ -50,7 +50,7 @@ struct CGPAView: View {
 						Text("PLEASE ENTER THE CREDIT AMOUNT AND THE GPA.")
 							.lineLimit(1)
 							.font(.caption)
-							.foregroundColor(.black)
+							.foregroundColor(.white)
 							.padding(.all)
 							.frame(maxWidth: .infinity, alignment: .center)
 							.background(Color(.systemGray6))
@@ -63,9 +63,9 @@ struct CGPAView: View {
 							}
 						}
 						.pickerStyle(MenuPickerStyle())
-						TextField("Semester Credit", value: $enteredSemesterCredit, formatter: NumberFormatter())
+						TextField("Credit", value: $enteredSemesterCredit, formatter: NumberFormatter())
 							.keyboardType(.numberPad)
-						TextField("Semester GPA", value: $enteredSemesterGPA, formatter: NumberFormatter())
+						TextField("GPA", value: $enteredSemesterGPA, formatter: NumberFormatter())
 							.keyboardType(.decimalPad)
 						Button(action: {
 							guard !enteredSemesterGPA.description.isEmpty else {
@@ -128,5 +128,6 @@ struct Class3: Identifiable {
 struct CGPAView_Previews: PreviewProvider {
 	static var previews: some View {
 		CGPAView()
+			.preferredColorScheme(.dark)
 	}
 }
