@@ -12,7 +12,7 @@ struct CGPAView: View {
 	@State var enteredSemesterCredit: Int = 0
 	@State var enteredSemesterGPA: Double = 0.0
 	@State var cGPA: Double = 0.0
-	@State var selectedSemesterNo: Int = 0
+	@State var selectedSemesterNo: Int = 1
 	
 	@State private var enteredSemesterCreditText = ""
 	@State private var enteredSemesterGPAText = ""
@@ -106,7 +106,7 @@ struct CGPAView: View {
 							}
 							
 							self.semesters.append(Class3(id: UUID(), semesterNo: self.selectedSemesterNo, semesterCredit: self.enteredSemesterCredit, semesterGPA: self.enteredSemesterGPA))
-							self.selectedSemesterNo = 0
+							self.selectedSemesterNo = 1
 							self.enteredSemesterCredit = 0
 							self.enteredSemesterGPA = 0.0
 							self.enteredSemesterCreditText = ""
