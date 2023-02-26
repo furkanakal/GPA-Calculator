@@ -30,7 +30,7 @@ struct CGPAView: View {
 							Spacer()
 							Text("Total Credit: \(classItem.semesterCredit)")
 							Spacer()
-							Text("Semester GPA: \(classItem.semesterGPA)")
+							Text("GPA: \(String(format: "%.2f", classItem.semesterGPA))")
 						}
 						.swipeActions(edge: .trailing, allowsFullSwipe: false) {
 							Button(action: {
