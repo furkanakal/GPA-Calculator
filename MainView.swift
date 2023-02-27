@@ -24,7 +24,7 @@ struct MainView: View {
 			
 			CGPAView()
 				.tabItem {
-					Label("cGPA", systemImage: "list.dash")
+					Label("cGPA", systemImage: "graduationcap.fill")
 				}
 		}
 	}
