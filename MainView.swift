@@ -7,17 +7,17 @@
 
 import SwiftUI
 
-struct MainView: View {
+struct MainView: View {	
 	var body: some View {
 		TabView {
 			ContentView()
 				.tabItem {
-					Label("Mode 1", systemImage: "list.dash")
+					Label("GPA 1", systemImage: "list.dash")
 				}
 			
 			ContentView2()
 				.tabItem {
-					Label("Mode 2", systemImage: "list.dash")
+					Label("GPA 2", systemImage: "list.dash")
 				}
 			
 			Spacer()
