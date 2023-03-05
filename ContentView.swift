@@ -104,7 +104,8 @@ func calculateGPA(classes: [Class]) -> Double {
 	for classItem in classes {
 		totalCredits += Double(classItem.credit)
 		switch classItem.grade {
-		case "AA":			totalGradePoints += 4.0 * Double(classItem.credit)
+		case "AA":
+			totalGradePoints += 4.0 * Double(classItem.credit)
 		case "BA":
 			totalGradePoints += 3.5 * Double(classItem.credit)
 		case "BB":
