@@ -32,7 +32,7 @@ struct CGPAView: View {
 							Spacer()
 							Text("GPA: \(String(format: "%.2f", classItem.semesterGPA))")
 						}
-						.swipeActions(edge: .trailing, allowsFullSwipe: false) {
+						.swipeActions(edge: .trailing, allowsFullSwipe: true) {
 							Button(action: {
 								self.semesters.removeAll(where: { $0.id == classItem.id })
 								self.cGPA = calculateCGPA(semesters: self.semesters)
@@ -138,6 +138,9 @@ struct CGPAView: View {
 			.navigationTitle("cGPA Calculator")
 			.padding()
 		}
+		.onTapGesture {
+			hideKeyboard3()
+		}
 	}
 }
 
@@ -158,6 +161,13 @@ struct Class3: Identifiable {
 	var semesterNo: Int
 	var semesterCredit: Int
 	var semesterGPA: Double
+}
+
+extension View {
+	func hideKeyboard3() {
+		let resign = #selector(UIResponder.resignFirstResponder)
+		UIApplication.shared.sendAction(resign, to: nil, from: nil, for: nil)
+	}
 }
 
 struct CGPAView_Previews: PreviewProvider {

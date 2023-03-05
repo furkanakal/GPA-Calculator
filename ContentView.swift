@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-	@State var isVisible = false
-	
 	@State var classes: [Class] = []
 	@State var selectedCredit: Int = 0
 	@State var selectedGrade: String = "AA"
@@ -32,7 +30,7 @@ struct ContentView: View {
 							Spacer()
 							Text("Grade: \(classItem.grade)")
 						}
-						.swipeActions(edge: .trailing, allowsFullSwipe: false) {
+						.swipeActions(edge: .trailing, allowsFullSwipe: true) {
 							Button(action: {
 								self.classes.removeAll(where: { $0.id == classItem.id })
 								self.gpa = calculateGPA(classes: self.classes)
@@ -90,13 +88,11 @@ struct ContentView: View {
 					.font(.title)
 					.fontWeight(.bold)
 			}
-			.opacity(isVisible ? 1.0 : 0.0)
-			.animation(.easeInOut(duration: 1.0))
-			.onAppear {
-				self.isVisible = true
-			}
 			.navigationTitle("GPA Calculator")
 			.padding()
+		}
+		.onTapGesture {
+			hideKeyboard()
 		}
 	}
 }
@@ -108,8 +104,7 @@ func calculateGPA(classes: [Class]) -> Double {
 	for classItem in classes {
 		totalCredits += Double(classItem.credit)
 		switch classItem.grade {
-		case "AA":
-			totalGradePoints += 4.0 * Double(classItem.credit)
+		case "AA":			totalGradePoints += 4.0 * Double(classItem.credit)
 		case "BA":
 			totalGradePoints += 3.5 * Double(classItem.credit)
 		case "BB":
@@ -140,6 +135,12 @@ struct Class: Identifiable {
 	var grade: String
 }
 
+extension View {
+	func hideKeyboard() {
+		let resign = #selector(UIResponder.resignFirstResponder)
+		UIApplication.shared.sendAction(resign, to: nil, from: nil, for: nil)
+	}
+}
 
 struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {

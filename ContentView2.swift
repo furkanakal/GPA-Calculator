@@ -30,7 +30,7 @@ struct ContentView2: View {
 							Spacer()
 							Text("Grade: \(classItem.grade)")
 						}
-						.swipeActions(edge: .trailing, allowsFullSwipe: false) {
+						.swipeActions(edge: .trailing, allowsFullSwipe: true) {
 							Button(action: {
 								self.classes.removeAll(where: { $0.id == classItem.id })
 								self.gpa = calculateGPA(classes: self.classes)
@@ -91,6 +91,9 @@ struct ContentView2: View {
 			.navigationTitle("GPA Calculator")
 			.padding()
 		}
+		.onTapGesture {
+			hideKeyboard2()
+		}
 	}
 }
 		
@@ -138,6 +141,12 @@ struct Class2: Identifiable {
 	var grade: String
 }
 
+extension View {
+	func hideKeyboard2() {
+		let resign = #selector(UIResponder.resignFirstResponder)
+		UIApplication.shared.sendAction(resign, to: nil, from: nil, for: nil)
+	}
+}
 
 struct ContentView_Previews2: PreviewProvider {
 	static var previews: some View {
